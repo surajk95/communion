@@ -1,7 +1,7 @@
-import { createRoom } from "./rooms.js";
+import { createLobby } from "./lobby.js";
 import { socketIO } from "../index.js";
 let users = []
-let room = null
+let lobby = null
 
 function sendData(socket, data) {
     socket.emit('data', data)
@@ -33,9 +33,9 @@ export function setEventListeners() {
      
         socket.on('disconnect', () => {
           console.log(`${socket.id} disconnected.`);
-          if(roomExists()) {
-            const targetUser = room.players.filter(i => i.socketId === socket.id)
-            room.players = room.players.filter(i => i.socketId !== socket.id)
+          if(lobbyExists()) {
+            const targetUser = lobby.players.filter(i => i.socketId === socket.id)
+            lobby.players = lobby.players.filter(i => i.socketId !== socket.id)
             broadcastData({
               type: 'update',
               data: `${targetUser?.username} left`
@@ -55,30 +55,30 @@ export const handleData = (data, socket) => {
           })
           break
         }
-        case 'host-room': {
-            room = createRoom(data.data, socket.id)
+        case 'host-lobby': {
+            lobby = createLobby(data.data, socket.id)
             sendData(socket, {
-              type: 'update-room',
-              room
+              type: 'update-lobby',
+              lobby
             })
             break
         }
-        case 'join-room': {
+        case 'join-lobby': {
             const username = data.data.username ? data.data.username : socket.id
-            if(!roomExists()) {
+            if(!lobbyExists()) {
               sendData(socket, {
                 type: 'error',
-                data: 'Room doesn\'t exist',
+                data: 'lobby doesn\'t exist',
               })
             }
             else {
-              room.players.push({
+              lobby.players.push({
                 socketId: socket.id,
                 username,
               })
               broadcastData({
-                type: 'update-room',
-                room,
+                type: 'update-lobby',
+                lobby,
               })
               broadcastData({
                 type: 'update',
@@ -91,9 +91,9 @@ export const handleData = (data, socket) => {
             console.log(`invalid data`)
         }
     }
-    console.log(`config now`, room)
+    console.log(`config now`, lobby)
 }
 
-function roomExists() {
-  return room && Object.keys(room).length > 0
+function lobbyExists() {
+  return lobby && Object.keys(lobby).length > 0
 }

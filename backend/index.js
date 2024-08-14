@@ -1,7 +1,7 @@
 import express from "express";
 const app = express()
 import cors from "cors";
-import { setEventListeners } from "./casino/socket.js";
+import { setEventListeners } from "./communion/socket.js";
 import http from "http"
 const httpServer = http.Server(app)
 const PORT = 2000

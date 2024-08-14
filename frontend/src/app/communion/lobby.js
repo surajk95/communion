@@ -4,30 +4,30 @@ import useSocket from './use-socket'
 
 export default function Lobby() {
   const { connect, isConnected, dataEvents, sendData } = useSocket();
-  const room = useStore(state => state.room)
+  const lobby = useStore(state => state.lobby)
   const id = useStore(state => state.id)
 
-  console.log(`zzz lobby`, room, id)
+  console.log(`zzz lobby`, lobby, id)
   
   return (
     <div className="p-6">
       This is the lobby
-      <div>Code: {room?.code}</div>
-      <div>Host: {room?.host}</div>
+      <div>Code: {lobby?.code}</div>
+      <div>Host: {lobby?.host}</div>
       <div>
         <div>players:</div>
         {
-          !room?.players || room?.players.length===0 && 'None'
+          !lobby?.players || lobby?.players.length===0 && 'None'
         }
         {
-          room?.players.map((player) => {
+          lobby?.players.map((player) => {
             return (
               <div key={player.socketId}>{player.socketId}</div>
             )
           })
         }
         {
-          room?.host === id &&
+          lobby?.host === id &&
           <HostControls />
         }
       </div>

@@ -5,37 +5,37 @@ import Lobby from './lobby';
 
 export default function Home() {
   const { connect, isConnected, dataEvents, sendData } = useSocket();
-  const room = useStore(state => state.room)
+  const lobby = useStore(state => state.lobby)
   const initHost = () => {
     sendData({
-      type: 'host-room',
+      type: 'host-lobby',
       data: {code: 420,},
     })
   }
   const onSubmit = (e) => {
     if(e) e.preventDefault()
     sendData({
-      type: 'join-room',
+      type: 'join-lobby',
       data: {code: 420, username: ''},
     })
   }
 
-  // console.log(`zzz index`, room)
+  // console.log(`zzz index`, lobby)
   return (
     <div>
       Communion
       <br/>
       {/* <button onClick={connect}>Connect</button> */}
-      {/* <button onClick={() => sendData('roomcode 69')}>Send</button> */}
+      {/* <button onClick={() => sendData('lobbycode 69')}>Send</button> */}
       {
-        !room ?
+        !lobby ?
         <>
               <button onClick={() => initHost()}>Host</button>
       <div>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            placeholder="Enter room code here"
+            placeholder="Enter lobby code here"
           />
           <button type="submit">Join</button>
         </form>

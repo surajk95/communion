@@ -1,4 +1,4 @@
-export const roomConfig = {
+export const lobbyConfig = {
     code: null,
     host: null,
     players: [],

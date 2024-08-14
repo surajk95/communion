@@ -5,7 +5,7 @@ import useStore from './store';
 export default function useSocket() {
     const [isConnected, setIsConnected] = useState(socket.connected);
     const [dataEvents, setDataEvents] = useState([]);
-    const setRoom = useStore(state => state.setRoom)
+    const setLobby = useStore(state => state.setLobby)
     const setStatus = useStore(state => state.setStatus)
     const setId = useStore(state => state.setId)
     const setCurrentGameIndex = useStore(state => state.setCurrentGameIndex)
@@ -51,16 +51,16 @@ export default function useSocket() {
           setCurrentGameIndex(data.index)
           break
         }
-        case 'update-room': {
-          setRoom(data.room)
+        case 'update-lobby': {
+          setLobby(data.lobby)
           break
         }
         case 'update': {
           console.log('zzz update: ', data.data)
           break
         }
-        case 'room-joined': {
-          setRoom(data.room)
+        case 'lobby-joined': {
+          setLobby(data.lobby)
           setStatus('lobby')
           break
         }
