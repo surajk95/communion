@@ -8,7 +8,10 @@ const PORT = 2000
 import { Server } from "socket.io";
 export const socketIO = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3001"
+        origin: [
+            "http://localhost:3001",
+            "https://communion-io.vercel.app"
+        ],
     }
 });
 
